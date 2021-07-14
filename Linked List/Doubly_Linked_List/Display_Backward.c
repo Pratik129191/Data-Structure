@@ -1,0 +1,83 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// creating structure for every node and assigning an alias name.......
+typedef struct node_structure
+{
+	struct node_structure* previous;
+	int data;
+	struct node_structure* next;
+}node;
+
+// declaring functions.....
+node* createDoublyLinkedList(int n);
+void displayBackward(node* head);
+
+int main()
+{
+	int n;
+	printf("Enter How Many Nodes You Want to Create:- ");
+	scanf("%d",&n);
+	node* head=NULL;
+	head=createDoublyLinkedList(n);
+	displayBackward(head);
+}
+
+node* createDoublyLinkedList(int n)
+{
+	node* head=NULL;
+	node* temp=NULL;
+	node* ptr=NULL;
+	for(int i=0;i<n;i++)
+	{
+		// creating isolated node......
+		temp=(node*)malloc(sizeof(node));
+		if(temp==NULL)
+		{
+			printf("Memory Can't be Allocated.\n");
+		}
+		else
+		{
+			printf("Enter The Data for Node %d:- ",i+1);
+			scanf("%d",&temp->data);
+			temp->previous=NULL;
+			temp->next=NULL;
+
+			if (head==NULL)
+			{
+				head=temp;
+			}
+			else
+			{
+				ptr=head;
+				while (ptr->next!=NULL)
+				{
+					ptr=ptr->next;
+				}
+				ptr->next=temp;
+				temp->previous=ptr;
+			}
+		}
+	}
+	return head;
+}
+
+void displayBackward(node* head)
+{
+	node* ptr=NULL;
+	ptr=head;
+
+	// going to the last node of the list......
+	while(ptr->next!=NULL)
+	{
+		ptr=ptr->next;
+	}
+
+	// printing nodes from last to first.......
+	while (ptr!=NULL)
+	{
+		printf("%d <-- ",ptr->data);
+		ptr=ptr->previous;
+	}
+	printf("NULL.");
+}
